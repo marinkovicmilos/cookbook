@@ -2,14 +2,15 @@
   "name": "cookbook",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/server.js",
+  "main": "./src/server.mjs",
   "scripts": {
-    "start": "node ./src/server.js",
-    "dev": "nodemon ./src/server.js"
+    "start": "node ./src/server.mjs",
+    "dev": "nodemon ./src/server.mjs"
   },
   "keywords": [],
   "author": "marinkovicmilos77@gmail.com",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "fastify": "^4.26.2"
   },
