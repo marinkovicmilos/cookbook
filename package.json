@@ -12,7 +12,8 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "fastify": "^4.26.2"
+    "fastify": "^4.26.2",
+    "mongoose": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
