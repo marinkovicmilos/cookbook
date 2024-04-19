@@ -1,4 +1,16 @@
+import Joi from 'joi';
+
 import { Recipe } from '../models/recipeModel.mjs';
+
+const recipeSchema = Joi.object({
+    name: Joi.string().required(),
+    ingredients: Joi.array().items(Joi.string()).required(),
+    steps: Joi.array().items(Joi.string()).required()
+});
+
+const validateRecipe = (recipeData) => {
+    return recipeSchema.validate(recipeData);
+};
 
 export const getRecipes = async (request, reply) => {
     try {
@@ -27,6 +39,11 @@ export const getRecipeById = async (request, reply) => {
 
 export const addRecipe = async (request, reply) => {
     try {
+        const validationError = validateRecipe(request.body);
+        if (validationError.error) {
+            return reply.status(400).send({ error: validationError.error.details[0].message });
+        }
+
         const { name, ingredients, steps } = request.body;
 
         const recipe = new Recipe({ name, ingredients, steps });
@@ -41,6 +58,11 @@ export const addRecipe = async (request, reply) => {
 
 export const updateRecipe = async (request, reply) => {
     try {
+        const validationResult = validateRecipe(request.body);
+        if (validationResult.error) {
+            return reply.status(400).send({ error: error.details[0].message });
+        }
+
         const recipeId = request.params.id;
         const { name, ingredients, steps } = request.body;
 
