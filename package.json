@@ -13,6 +13,7 @@
   "type": "module",
   "dependencies": {
     "fastify": "^4.26.2",
+    "joi": "^17.12.3",
     "mongoose": "^8.3.2"
   },
   "devDependencies": {
