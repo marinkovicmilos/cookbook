@@ -13,7 +13,7 @@ export const login = async (request, reply) => {
             return reply.status(401).send({ error: 'Invalid username or password' });
         }
 
-        const token = jwt.sign({ username: user.username }, 'secret-key');
+        const token = jwt.sign({ username: user.username, role: 'admin' }, 'stavi tajni kljuc u env');
         return token;
     } catch (error) {
         reply.status(500).send({ error: 'Internal Server Error' });

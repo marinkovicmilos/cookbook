@@ -5,6 +5,7 @@ import { createDefaultUser } from './controllers/userController.mjs';
 
 import recipesRoutes from './routes/recipesRoutes.mjs';
 import userRoutes from './routes/userRoutes.mjs';
+import { authenticate } from './middlewares/authMiddleware.mjs';
 
 const port = 3000;
 const fastify = Fastify({
@@ -13,6 +14,8 @@ const fastify = Fastify({
 
 fastify.register(recipesRoutes);
 fastify.register(userRoutes);
+
+fastify.addHook('onRequest', authenticate);
 
 const connectToDatabase = async () => {
     const uri = 'mongodb://localhost:27017/cookbook';
