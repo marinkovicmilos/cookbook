@@ -1,5 +1,16 @@
 # cookbook
 
+# Configuration
+
+## Env variables
+
+For dev mode: 
+- <b>.env</b> file should be located in root. If it doesn't exist, create one. Populate this file with all necessary variables. Example: 
+```.env
+PORT=3000
+JWT_SECRET_KEY=mySecretKey
+```
+
 # Database
 
 Details taken from [MongoDB official web site](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu)

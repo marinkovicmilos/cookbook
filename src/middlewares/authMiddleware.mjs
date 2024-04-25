@@ -4,7 +4,7 @@ export const authenticate = async (request, reply) => {
     try {
         if (request.headers.authorization) {
             const token = request.headers.authorization.replace('Bearer ', '');
-            const decoded = jwt.verify(token, 'stavi tajni kljuc u env');
+            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
             request.user = decoded;
         } else {
             request.user = { role: 'user' }

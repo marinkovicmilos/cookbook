@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 import { createDefaultUser } from './controllers/userController.mjs';
 
@@ -7,7 +8,6 @@ import recipesRoutes from './routes/recipesRoutes.mjs';
 import userRoutes from './routes/userRoutes.mjs';
 import { authenticate } from './middlewares/authMiddleware.mjs';
 
-const port = 3000;
 const fastify = Fastify({
     logger: true
 });
@@ -30,7 +30,7 @@ const connectToDatabase = async () => {
 const start = async () => {
     try {
         connectToDatabase();
-        fastify.listen({ port }, (err, address) => {
+        fastify.listen({ port: process.env.PORT }, (err, address) => {
             if (err) throw err
             console.log(`Server listening on ${address}`);
         });
