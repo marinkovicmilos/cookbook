@@ -1,6 +1,6 @@
-import Joi from 'joi';
+const Joi = require('joi');
 
-import { Recipe } from '../models/recipeModel.mjs';
+const { Recipe } = require('../models/recipeModel.js');
 
 const recipeSchema = Joi.object({
     name: Joi.string().required(),
@@ -12,7 +12,7 @@ const validateRecipe = (recipeData) => {
     return recipeSchema.validate(recipeData);
 };
 
-export const getRecipes = async (request, reply) => {
+exports.getRecipes = async (request, reply) => {
     try {
         const recipes = await Recipe.find();
 
@@ -22,7 +22,7 @@ export const getRecipes = async (request, reply) => {
     }
 };
 
-export const getRecipeById = async (request, reply) => {
+exports.getRecipeById = async (request, reply) => {
     try {
         const recipeId = request.params.id;
         const recipe = await Recipe.findById(recipeId);
@@ -37,7 +37,7 @@ export const getRecipeById = async (request, reply) => {
     }
 };
 
-export const addRecipe = async (request, reply) => {
+exports.addRecipe = async (request, reply) => {
     try {
         const validationError = validateRecipe(request.body);
         if (validationError.error) {
@@ -56,7 +56,7 @@ export const addRecipe = async (request, reply) => {
     }
 };
 
-export const updateRecipe = async (request, reply) => {
+exports.updateRecipe = async (request, reply) => {
     try {
         const validationResult = validateRecipe(request.body);
         if (validationResult.error) {
@@ -78,7 +78,7 @@ export const updateRecipe = async (request, reply) => {
     }
 };
 
-export const deleteRecipe = async (request, reply) => {
+exports.deleteRecipe = async (request, reply) => {
     try {
         const recipeId = request.params.id;
 

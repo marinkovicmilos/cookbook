@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
-export const authenticate = async (request, reply) => {
+exports.authenticate = async (request, reply) => {
     try {
         if (request.headers.authorization) {
             const token = request.headers.authorization.replace('Bearer ', '');
@@ -14,7 +14,7 @@ export const authenticate = async (request, reply) => {
     }
 };
 
-export const authorize = (roles) => {
+exports.authorize = (roles) => {
     return (request, reply, next) => {
         const userRole = request.user.role;
 

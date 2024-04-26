@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const recipeSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -6,4 +6,4 @@ const recipeSchema = new mongoose.Schema({
     steps: [{ type: String, required: true }]
 });
 
-export const Recipe = mongoose.model('Recipe', recipeSchema);
+exports.Recipe = mongoose.model('Recipe', recipeSchema);
