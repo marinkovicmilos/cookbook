@@ -1,9 +1,9 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-import { User } from '../models/userModel.mjs';
+const { User } = require('../models/userModel.js');
 
-export const login = async (request, reply) => {
+exports.login = async (request, reply) => {
     const { username, password } = request.body;
 
     try {
@@ -20,7 +20,7 @@ export const login = async (request, reply) => {
     }
 };
 
-export const createDefaultUser = async () => {
+exports.createDefaultUser = async () => {
     const username = 'somi';
     try {
         const existingUser = await User.findOne({ username });

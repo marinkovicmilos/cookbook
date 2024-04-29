@@ -1,19 +1,20 @@
-import Fastify from 'fastify';
-import mongoose from 'mongoose';
-import 'dotenv/config';
+const Fastify = require('fastify');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv')
 
-import { createDefaultUser } from './controllers/userController.mjs';
+const { createDefaultUser } = require('./controllers/userController.js');
 
-import recipesRoutes from './routes/recipesRoutes.mjs';
-import userRoutes from './routes/userRoutes.mjs';
-import { authenticate } from './middlewares/authMiddleware.mjs';
+const recipesRoutes = require('./routes/recipesRoutes.js');
+const usersRoutes = require('./routes/userRoutes.js');
+const { authenticate } = require('./middlewares/authMiddleware.js');
 
+dotenv.config()
 const fastify = Fastify({
     logger: true
 });
 
-fastify.register(recipesRoutes);
-fastify.register(userRoutes);
+fastify.register(recipesRoutes.routes);
+fastify.register(usersRoutes.routes);
 
 fastify.addHook('onRequest', authenticate);
 
