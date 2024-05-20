@@ -19,17 +19,18 @@ fastify.addHook('onRequest', authenticate);
 
 const connectToDatabase = async (): Promise<any> => {
     // move this to env
-    const uri = 'mongodb://localhost:27017/cookbook';
+    const uri = process.env.DB_CONNECTION_STRING;
 
     return new Promise((resolve, reject) => {
         const timeout = setTimeout(() => {
             reject(new Error('Timeout connecting to database'));
         }, 10000);
 
-        mongoose.connect(uri)
+        mongoose.connect(process.env.DB_CONNECTION_STRING as string)
             .then(() => {
                 clearTimeout(timeout);
                 console.log('Connected to MongoDB');
+                createDefaultUser();
                 resolve('Successful');
             })
             .catch(error => {
