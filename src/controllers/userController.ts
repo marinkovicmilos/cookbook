@@ -1,27 +1,27 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { User } from '../models/userModel';
 
-const { User } = require('../models/userModel.js');
-
-exports.login = async (request, reply) => {
+export const login = async (request: any, reply: any): Promise<string> => {
     const { username, password } = request.body;
 
     try {
         const user = await User.findOne({ username });
 
-        if (!user || !await bcrypt.compare(password, user.passwordHash)) {
+        if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
             return reply.status(401).send({ error: 'Invalid username or password' });
         }
 
-        const token = jwt.sign({ username: user.username, role: 'admin' }, process.env.JWT_SECRET_KEY);
+        const token = jwt.sign({ username: user.username, role: 'admin' }, process.env.JWT_SECRET_KEY as string);
         return token;
-    } catch (error) {
-        reply.status(500).send({ error: 'Internal Server Error' });
+    } catch (error: any) {
+        return reply.status(500).send({ error: 'Internal Server Error' });
     }
 };
 
-exports.createDefaultUser = async () => {
+export const createDefaultUser = async (): Promise<void> => {
     const username = 'somi';
+
     try {
         const existingUser = await User.findOne({ username });
 
