@@ -1,5 +1,29 @@
 # cookbook
 
+# Quick start
+
+```diff
+- IMPORTANT: Make sure to use npm version 10
+```
+1. install necessary node_modules by running:
+```bash
+npm install
+```
+2. start MongoDB
+
+```bash
+sudo systemctl start mongod
+```
+3. Populate .env file with appropriate values.
+4. Build the app
+```bash
+npm run build
+```
+5. Start the app
+```bash
+npm run start
+```
+
 # Configuration
 
 ## Env variables
