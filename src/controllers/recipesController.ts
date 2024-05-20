@@ -1,43 +1,41 @@
-const Joi = require('joi');
+import Joi, { Schema, ValidationResult } from 'joi';
+import { Recipe, IRecipe } from '../models/recipeModel';
 
-const { Recipe } = require('../models/recipeModel.js');
-
-const recipeSchema = Joi.object({
+const recipeSchema: Schema = Joi.object({
     name: Joi.string().required(),
     ingredients: Joi.array().items(Joi.string()).required(),
     steps: Joi.array().items(Joi.string()).required()
 });
 
-const validateRecipe = (recipeData) => {
+const validateRecipe = (recipeData: any): ValidationResult => {
     return recipeSchema.validate(recipeData);
 };
 
-exports.getRecipes = async (request, reply) => {
+export const getRecipes = async (request: any, reply: any): Promise<IRecipe[]> => {
     try {
         const recipes = await Recipe.find();
-
         return recipes;
-    } catch (error) {
+    } catch (error: any) {
         reply.status(500).send({ error: `Error getting recipes: ${error.message}` });
+        throw error;
     }
 };
 
-exports.getRecipeById = async (request, reply) => {
+export const getRecipeById = async (request: any, reply: any): Promise<IRecipe | undefined> => {
     try {
         const recipeId = request.params.id;
         const recipe = await Recipe.findById(recipeId);
-
         if (!recipe) {
             return reply.status(404).send({ error: 'Recipe not found' });
         }
-
         return recipe;
-    } catch (error) {
+    } catch (error: any) {
         reply.status(500).send({ error: error.message });
+        throw error;
     }
 };
 
-exports.addRecipe = async (request, reply) => {
+export const addRecipe = async (request: any, reply: any): Promise<IRecipe> => {
     try {
         const validationError = validateRecipe(request.body);
         if (validationError.error) {
@@ -45,22 +43,21 @@ exports.addRecipe = async (request, reply) => {
         }
 
         const { name, ingredients, steps } = request.body;
-
         const recipe = new Recipe({ name, ingredients, steps });
-
         await recipe.save();
 
         return recipe;
-    } catch (error) {
+    } catch (error: any) {
         reply.status(500).send({ error: error.message });
+        throw error;
     }
 };
 
-exports.updateRecipe = async (request, reply) => {
+export const updateRecipe = async (request: any, reply: any): Promise<IRecipe | undefined> => {
     try {
         const validationResult = validateRecipe(request.body);
         if (validationResult.error) {
-            return reply.status(400).send({ error: error.details[0].message });
+            return reply.status(400).send({ error: validationResult.error.details[0].message });
         }
 
         const recipeId = request.params.id;
@@ -73,12 +70,13 @@ exports.updateRecipe = async (request, reply) => {
         }
 
         return updatedRecipe;
-    } catch (error) {
+    } catch (error: any) {
         reply.status(500).send({ error: 'Internal Server Error' });
+        throw error;
     }
 };
 
-exports.deleteRecipe = async (request, reply) => {
+export const deleteRecipe = async (request: any, reply: any): Promise<{ message: string } | undefined> => {
     try {
         const recipeId = request.params.id;
 
@@ -89,7 +87,8 @@ exports.deleteRecipe = async (request, reply) => {
         }
 
         return { message: `Recipe with ID ${recipeId} deleted successfully` };
-    } catch (error) {
+    } catch (error: any) {
         reply.status(500).send({ error: error.message });
+        throw error;
     }
 };
