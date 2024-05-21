@@ -15,6 +15,11 @@ npm install
 sudo systemctl start mongod
 ```
 3. Populate .env file with appropriate values.
+```
+PORT=3000
+JWT_SECRET_KEY=mySecretKey
+DB_CONNECTION_STRING=mongodb://localhost:27017/cookbook
+```
 4. Build the app
 ```bash
 npm run build
